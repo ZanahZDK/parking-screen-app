@@ -88,8 +88,10 @@ class _ParkingSpacesScreenState extends State<ParkingSpacesScreen> {
                   margin: const EdgeInsets.all(5.0),
                   decoration: BoxDecoration(
                     color: space['available']
-                        ? const Color.fromARGB(255, 32, 140, 255)
-                        : const Color.fromARGB(255, 185, 186, 187),
+                        ? const Color.fromARGB(255, 32, 140,
+                            255) // Colores para cuando el estacionamiento esté disponible
+                        : const Color.fromARGB(255, 185, 186,
+                            187), // Colores para cuando el estacionamiento esté ocupado
                     border: Border.all(color: Colors.white),
                     borderRadius: BorderRadius.circular(10),
                   ),
