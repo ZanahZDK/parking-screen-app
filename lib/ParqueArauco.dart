@@ -1,12 +1,14 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/MapScreen.dart';
+import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 void main() => runApp(const ParkingApp());
 
-class ParkingApp extends StatelessWidget {
-  const ParkingApp({super.key});
+class ParqueArauco extends StatelessWidget {
+  const ParqueArauco({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,31 +17,32 @@ class ParkingApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ParkingSpacesScreen(),
+      home: const MapScreen(),
     );
   }
 }
 
-class ParkingSpacesScreen extends StatefulWidget {
-  const ParkingSpacesScreen({super.key});
+class ParqueAraucoScreen extends StatefulWidget {
+  const ParqueAraucoScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _ParkingSpacesScreenState createState() => _ParkingSpacesScreenState();
+  _ParqueAraucoScreenState createState() => _ParqueAraucoScreenState();
 }
 
-class _ParkingSpacesScreenState extends State<ParkingSpacesScreen> {
+class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
   List<dynamic> parkingSpaces = [];
+  String selectedFloor = 'Nivel 1';
 
   @override
   void initState() {
     super.initState();
-    loadParkingSpaces('Nivel 1');
+    loadParkingSpaces('Nivel 1', 2);
   }
 
-  loadParkingSpaces(String floor) async {
-    final response = await http
-        .get(Uri.parse('http://10.0.2.2:8080/parking_space/byFloor/$floor'));
+  loadParkingSpaces(String floor, int parkingLotId) async {
+    final response = await http.get(Uri.parse(
+        'http://10.0.2.2:8080/parking_space/byFloorAndParkingLot/$floor/$parkingLotId'));
     if (response.statusCode == 200) {
       var spaces = json.decode(response.body) as List;
 
@@ -51,6 +54,9 @@ class _ParkingSpacesScreenState extends State<ParkingSpacesScreen> {
         parkingSpaces = spaces;
       });
     }
+    setState(() {
+      selectedFloor = floor; // Actualiza el piso seleccionado
+    });
   }
 
   @override
@@ -62,18 +68,9 @@ class _ParkingSpacesScreenState extends State<ParkingSpacesScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ElevatedButton(
-                onPressed: () => loadParkingSpaces('Nivel 1'),
-                child: const Text('Nivel 1'),
-              ),
-              ElevatedButton(
-                onPressed: () => loadParkingSpaces('Nivel 2'),
-                child: const Text('Nivel 2'),
-              ),
-              ElevatedButton(
-                onPressed: () => loadParkingSpaces('Nivel 3'),
-                child: const Text('Nivel 3'),
-              ),
+              floorButton('Nivel 1', 2),
+              floorButton('Nivel 2', 2),
+              floorButton('Nivel 3', 2),
             ],
           ),
           Expanded(
@@ -103,6 +100,22 @@ class _ParkingSpacesScreenState extends State<ParkingSpacesScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  //CAMBIAR DE COLOR EL BOTON SEGUN ESTADO
+
+  Widget floorButton(String floor, int parkingLotId) {
+    return ElevatedButton(
+      onPressed: () => loadParkingSpaces(floor, parkingLotId),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            return floor == selectedFloor ? Colors.blue : Colors.grey;
+          },
+        ),
+      ),
+      child: Text(floor),
     );
   }
 }

@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_application_1/SlideUpMenuContent.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // Define la clase CustomMarker
 class CustomMarker {
@@ -149,14 +151,23 @@ class _MapScreenState extends State<MapScreen> {
         title: const Text('Mapa'),
         backgroundColor: Colors.green[700],
       ),
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: const CameraPosition(
-          target: LatLng(0, 0), // posición inicial arbitraria
-          zoom: 11.0,
+      body: SlidingUpPanel(
+        panel: const SlideUpMenuContent(), // Contenido del menú deslizante
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(0, 0), // posición inicial arbitraria
+            zoom: 11.0,
+          ),
+          myLocationEnabled: true,
+          markers: Set<Marker>.from(customMarkers),
         ),
-        myLocationEnabled: true,
-        markers: Set<Marker>.from(customMarkers),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(24.0),
+          topRight: Radius.circular(24.0),
+        ),
+        minHeight: 100.0, // Altura mínima del panel
+        maxHeight: 1000.0, // Altura máxima del panel
       ),
     );
   }
