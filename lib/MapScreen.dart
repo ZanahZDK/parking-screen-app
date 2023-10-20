@@ -27,6 +27,84 @@ class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
   late LatLng _currentPosition;
 
+  final String _mapStyle = '''
+    [
+      {
+        "featureType": "poi.attraction",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.business",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.government",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.medical",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.park",
+        "elementType": "labels.icon",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.place_of_worship",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.school",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "poi.sports_complex",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      },
+      {
+        "featureType": "transit",
+        "stylers": [
+          {
+            "visibility": "off"
+          }
+        ]
+      }
+    ]
+  ''';
+
   // DEFINO LA LISTA QUE CONTENDRA TODOS MIS MARCADORES PERSONALIZADOS
   List<Marker> customMarkers = [
     Marker(
@@ -50,6 +128,7 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+    mapController.setMapStyle(_mapStyle);
     _locateUser();
   }
 
