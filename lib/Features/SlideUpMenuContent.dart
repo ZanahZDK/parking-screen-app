@@ -66,6 +66,10 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
       children: [
         ElevatedButton(
           onPressed: _refreshParkings, // Vincula el botón con el método
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: const Color.fromARGB(255, 2, 120, 174),
+          ),
           child: const Text('REFRESCAR'),
         ),
         Expanded(
@@ -119,7 +123,8 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
 
 Widget MenuCard(Parking parking, BuildContext context) {
   return Card(
-    color: const Color(0xFFD4D8D9),
+    color: const Color.fromARGB(245, 245, 245, 245),
+    elevation: 5,
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       child: Column(
@@ -130,7 +135,7 @@ Widget MenuCard(Parking parking, BuildContext context) {
               parking
                   .name, // LE DAMOS EL VALOR DE "NAME" PROVENIENTE DE PARKINGDATA.DART
               style: const TextStyle(
-                  color: Colors.redAccent,
+                  color: Color.fromARGB(255, 2, 120, 174),
                   fontSize: 20,
                   fontWeight: FontWeight.w800),
             ),
@@ -157,7 +162,7 @@ Widget MenuCard(Parking parking, BuildContext context) {
               ElevatedButton(
                 onPressed: () => _navigateToParkingDetail(context, parking.id),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2B2D42)),
+                    backgroundColor: const Color.fromARGB(255, 2, 120, 174)),
                 child: const Text(
                   "Ver Información",
                   style: TextStyle(color: Colors.white),

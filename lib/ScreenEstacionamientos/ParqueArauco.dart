@@ -1,26 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Features/MapScreen.dart';
-import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-void main() => runApp(const ParkingApp());
-
-class ParqueArauco extends StatelessWidget {
-  const ParqueArauco({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Parking App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MapScreen(),
-    );
-  }
-}
 
 class ParqueAraucoScreen extends StatefulWidget {
   const ParqueAraucoScreen({super.key});
@@ -34,10 +15,27 @@ class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
   List<dynamic> parkingSpaces = [];
   String selectedFloor = 'Nivel 1';
 
+  String parkingLotName =
+      "Cargando nombre..."; // Variable para almacenar el nombre del estacionamiento
+
+  // Método para cargar el nombre del estacionamiento
+  loadParkingLotName(int parkingLotId) async {
+    final response = await http
+        .get(Uri.parse('http://10.0.2.2:8080/parking_lot/$parkingLotId'));
+    if (response.statusCode == 200) {
+      var parkingLot = json.decode(response.body);
+      setState(() {
+        parkingLotName = parkingLot[
+            'name']; // Asumiendo que tu respuesta tiene una clave 'name'
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     loadParkingSpaces('Nivel 1', 2);
+    loadParkingLotName(2);
   }
 
   loadParkingSpaces(String floor, int parkingLotId) async {
@@ -62,21 +60,51 @@ class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Parking Spaces')),
+      appBar: AppBar(title: const Text('Parking Finder')),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              floorButton('Nivel 1', 2),
-              floorButton('Nivel 2', 2),
-              floorButton('Nivel 3', 2),
-            ],
+          // TEXTO CON NOMBRE DEL ESTACIONAMIENTO
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            alignment: Alignment.center,
+            child: Text(
+              parkingLotName,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
           ),
+
+          // BOTONES QUE PERMITEN NAVEGAR ENTRE LOS PISOS DEL ESTACIONAMIENTO
+          Padding(
+            // METEMOS "ROW" DENTRO DEL PADDING PARA DARLE ESPACIO ENTRE EL TEXTO Y LOS BOTONES
+            padding: const EdgeInsets.only(
+                top: 1.0), // AJUSTO EL ESPACIO ENTRE EL TEXTO Y LOS BOTONES
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 50.0), // Ajusta el padding como desees
+                  child: floorButton('Nivel 1', 2),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 50.0), // Ajusta el padding como desees
+                  child: floorButton('Nivel 2', 2),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 50.0), // Ajusta el padding como desees
+                  child: floorButton('Nivel 3', 2),
+                ),
+              ],
+            ),
+          ),
+
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
+                crossAxisCount: 5, // Ajusta el número de elementos horizontales
+                childAspectRatio: 0.65, // Ajusta la proporción de los elementos
               ),
               itemCount: parkingSpaces.length,
               itemBuilder: (context, index) {

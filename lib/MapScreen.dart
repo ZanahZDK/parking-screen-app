@@ -115,10 +115,6 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mapa'),
-        backgroundColor: Colors.green[700],
-      ),
       body: SlidingUpPanel(
         panel: const SlideUpMenuContent(), // Contenido del menú deslizante
         body: GoogleMap(
@@ -126,7 +122,7 @@ class _MapScreenState extends State<MapScreen> {
           onMapCreated: _onMapCreated,
           initialCameraPosition: const CameraPosition(
             target: LatLng(0, 0), // posición inicial
-            zoom: 11.0,
+            zoom: 15.0,
           ),
           myLocationEnabled: true,
           markers: Set<Marker>.from(customMarkers),
@@ -136,7 +132,7 @@ class _MapScreenState extends State<MapScreen> {
           topRight: Radius.circular(24.0),
         ),
         minHeight: 100.0, // Altura mínima del panel
-        maxHeight: 1000.0, // Altura máxima del panel
+        maxHeight: 650.0, // Altura máxima del panel
       ),
     );
   }
