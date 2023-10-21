@@ -2,11 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_application_1/SlideUpMenuContent.dart';
+import 'package:flutter_application_1/Features/SlideUpMenuContent.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import 'package:flutter_application_1/Markers.dart';
-
+import 'package:flutter_application_1/Data/Markers.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -126,7 +125,7 @@ class _MapScreenState extends State<MapScreen> {
           padding: const EdgeInsets.only(bottom: 200),
           onMapCreated: _onMapCreated,
           initialCameraPosition: const CameraPosition(
-            target: LatLng(0, 0), // posición inicial arbitraria
+            target: LatLng(0, 0), // posición inicial
             zoom: 11.0,
           ),
           myLocationEnabled: true,

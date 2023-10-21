@@ -7,10 +7,11 @@ import 'package:geodesy/geodesy.dart' as geodesy; // Alias para Geodesy
 // ignore: depend_on_referenced_packages
 import 'package:latlong2/latlong.dart' as latlng2; // Alias para latlong2
 
-import 'package:flutter_application_1/ParqueArauco.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/ParqueArauco.dart';
 import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/ParkingData.dart';
+import 'package:flutter_application_1/Data/ParkingData.dart';
 
+//FUNCION: LINKEA LOS BOTONES DE "MAS INFORMACION" A LAS PANTALLAS DE CADA CENTRO COMERCIAL DONDE SE MUESTRAN LOS ESPACIOS DISPONIBLES.
 void _navigateToParkingDetail(BuildContext context, int parkingId) {
   switch (parkingId) {
     case 1:
@@ -116,109 +117,6 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
   }
 }
 
-/* class Parking {
-  final int id;
-  final LatLng location;
-  final String name;
-  final String ubication;
-  final int totalSpaces;
-
-  Parking({
-    required this.id,
-    required this.location,
-    required this.name,
-    required this.ubication,
-    required this.totalSpaces,
-  });
-}
-
-List<Parking> parkings = [
-  Parking(
-    id: 1,
-    location: const LatLng(-33.41679534637822, -70.60473570944188),
-    name: "Estacionamiento Mall Costanera Center",
-    ubication: "Providencia",
-    totalSpaces: 75,
-  ),
-
-  Parking(
-    id: 2,
-    location: const LatLng(-33.404522426319375, -70.57564364545044),
-    name: "Estacionamiento Mall Parque Arauco",
-    ubication: "Las Condes",
-    totalSpaces: 75,
-  ),
-
-  Parking(
-    id: 3,
-    location: const LatLng(-33.51052431719239, -70.60623010121134),
-    name: "Estacionamiento Mall Florida Center",
-    ubication: "La Florida",
-    totalSpaces: 75,
-  ),
-
-  Parking(
-    id: 4,
-    location: const LatLng(-33.51909630360077, -70.59913630305729),
-    name: "Estacionamiento Mall Plaza Vespucio",
-    ubication: "La Florida",
-    totalSpaces: 75,
-  ),
-
-  Parking(
-    id: 5,
-    location: const LatLng(-33.45331918521875, -70.68240819474927),
-    name: "Estacionamiento Mall Plaza Alameda",
-    ubication: "Santiago",
-    totalSpaces: 75,
-  ),
-
-  Parking(
-    id: 6,
-    location: const LatLng(-33.453510856050265, -70.5692061993674),
-    name: "Estacionamiento Mall Plaza Egaña",
-    ubication: "La Reina",
-    totalSpaces: 75,
-  ),
-
-  Parking(
-    id: 7,
-    location: const LatLng(-33.631822727459166, -70.71056100908842),
-    name: "Estacionamiento Mall Plaza Sur",
-    ubication: "San Bernardo",
-    totalSpaces: 75,
-  ),
-
-  Parking(
-    id: 8,
-    location: const LatLng(-33.48802493556529, -70.57903941763668),
-    name: "Estacionamiento Mall Paseo Quilin",
-    ubication: "Peñalolen",
-    totalSpaces: 75,
-  ),
-
-
-
-
-
-
-
-
-
-
-  Parking(
-    id: 3,
-    location: const LatLng(-33.404522426319375, -70.57564364545044),
-    name: "Estacionamiento Mall Florida Center",
-    ubication: "Las Condes",
-    totalSpaces: 75,
-  ),
-
-  // ... (otros estacionamientos)
-];
-
-*/
-
 Widget MenuCard(Parking parking, BuildContext context) {
   return Card(
     color: const Color(0xFFD4D8D9),
@@ -229,7 +127,8 @@ Widget MenuCard(Parking parking, BuildContext context) {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              parking.name, // Aquí se usa la variable
+              parking
+                  .name, // LE DAMOS EL VALOR DE "NAME" PROVENIENTE DE PARKINGDATA.DART
               style: const TextStyle(
                   color: Colors.redAccent,
                   fontSize: 20,
@@ -239,14 +138,16 @@ Widget MenuCard(Parking parking, BuildContext context) {
           Row(
             children: [
               const Icon(Icons.pin_drop),
-              Text(parking.ubication) // Aquí se usa la variable
+              Text(parking
+                  .ubication) // LE DAMOS EL VALOR DE "UBICATION" PROVENIENTE DE PARKINGDATA.DART
             ],
           ),
           const SizedBox(height: 10),
           Row(
             children: [
               const Icon(Icons.directions_car),
-              Text('${parking.totalSpaces}') // Aquí se usa la variable
+              Text(
+                  '${parking.totalSpaces}') // LE DAMOS EL VALOR DE "TOTALSPACES" PROVENIENTE DE PARKINGDATA.DART
             ],
           ),
           const SizedBox(height: 10),

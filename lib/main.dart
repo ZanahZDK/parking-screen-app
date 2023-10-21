@@ -1,6 +1,6 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/MapScreen.dart';
+import 'package:flutter_application_1/Features/MapScreen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
