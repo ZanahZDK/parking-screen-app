@@ -5,18 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_application_1/SlideUpMenuContent.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-// Define la clase CustomMarker
-class CustomMarker {
-  final LatLng location;
-  final String name;
-  final BitmapDescriptor icon;
+import 'package:flutter_application_1/Markers.dart';
 
-  CustomMarker({
-    required this.location,
-    required this.name,
-    required this.icon,
-  });
-}
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -107,27 +97,6 @@ class _MapScreenState extends State<MapScreen> {
     ]
   ''';
 
-  // DEFINO LA LISTA QUE CONTENDRA TODOS MIS MARCADORES PERSONALIZADOS
-  List<Marker> customMarkers = [
-    Marker(
-      markerId: const MarkerId("1"),
-      position: const LatLng(-33.41679534637822, -70.60473570944188),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      infoWindow: const InfoWindow(
-        title: "Estacionamiento Costanera Center",
-      ),
-    ),
-    Marker(
-      markerId: const MarkerId("2"),
-      position: const LatLng(-33.404522426319375, -70.57564364545044),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      infoWindow: const InfoWindow(
-        title: "Estacionamiento Parque Arauco",
-      ),
-    ),
-    // AGREGAR MAS CENTROS COMERCIALES
-  ];
-
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     mapController.setMapStyle(_mapStyle);
@@ -154,6 +123,7 @@ class _MapScreenState extends State<MapScreen> {
       body: SlidingUpPanel(
         panel: const SlideUpMenuContent(), // Contenido del menú deslizante
         body: GoogleMap(
+          padding: const EdgeInsets.only(bottom: 200),
           onMapCreated: _onMapCreated,
           initialCameraPosition: const CameraPosition(
             target: LatLng(0, 0), // posición inicial arbitraria
