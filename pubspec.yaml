@@ -14,9 +14,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.3
   google_maps_flutter: ^2.0.10
-  geolocator: ^7.6.2
+  geolocator: ^10.0.1
   sliding_up_panel: ^2.0.0
   geodesy: ^0.10.1
+  firebase_auth: ^4.11.1
+  firebase_core: ^2.19.0
+  font_awesome_flutter: ^10.6.0
 
 dev_dependencies:
   flutter_test:
@@ -25,3 +28,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/google.png
+    - assets/images/bg.png

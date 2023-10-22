@@ -1,4 +1,5 @@
-// ignore_for_file: file_names, non_constant_identifier_names, library_private_types_in_public_api
+// ignore_for_file: file_names, non_constant_identifier_names, library_private_types_in_public_api, avoid_print, unused_element, unused_local_variable, prefer_const_constructors, sort_child_properties_last
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -6,12 +7,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geodesy/geodesy.dart' as geodesy; // Alias para Geodesy
 // ignore: depend_on_referenced_packages
 import 'package:latlong2/latlong.dart' as latlng2; // Alias para latlong2
-
 import 'package:flutter_application_1/ScreenEstacionamientos/ParqueArauco.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/Data/ParkingData.dart';
 
-//FUNCION: LINKEA LOS BOTONES DE "MAS INFORMACION" A LAS PANTALLAS DE CADA CENTRO COMERCIAL DONDE SE MUESTRAN LOS ESPACIOS DISPONIBLES.
 void _navigateToParkingDetail(BuildContext context, int parkingId) {
   switch (parkingId) {
     case 1:
@@ -61,69 +60,93 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: _refreshParkings, // Vincula el botón con el método
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: const Color.fromARGB(255, 2, 120, 174),
-          ),
-          child: const Text('REFRESCAR'),
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Center(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    alignment: AlignmentDirectional.center,
-                    padding: const EdgeInsets.all(16.0),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: parkings.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return FutureBuilder<bool>(
-                        future:
-                            isWithinDistance(parkings[index].location, 1000),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          } else if (snapshot.hasData && snapshot.data!) {
-                            return MenuCard(parkings[index], context);
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+  void initState() {
+    print('Ejecutando init slidemenu');
+    super.initState();
+    _listenPosition();
   }
 
-  State<StatefulWidget> createState() {
-    throw UnimplementedError();
+  _listenPosition() async {
+    const LocationSettings locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 100,
+    );
+    StreamSubscription<Position> positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position? position) {
+      setState(() {});
+      print(position == null
+          ? 'Unknown'
+          : '${position.latitude.toString()}, ${position.longitude.toString()}');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            height: 18.9,
+            width: 140,
+            margin: EdgeInsets.only(top: 15, bottom: 15),
+            child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: 10,
+                ),
+                child: ElevatedButton(
+                    onPressed: () {},
+                    child: null,
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 2, 120, 174),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30))))),
+          ),
+          Center(
+            child: Container(
+              child: Text(
+                'Deslice Hacia Arriba',
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+              width: MediaQuery.sizeOf(context).width,
+              height: 50,
+              alignment: AlignmentDirectional.center,
+              padding: const EdgeInsets.only(bottom: 16),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: parkings.length,
+              itemBuilder: (BuildContext context, int index) {
+                return FutureBuilder<bool>(
+                  future: isWithinDistance(parkings[index].location, 1000),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator(); // Muestra un indicador de carga mientras se obtiene la ubicación
+                    } else if (snapshot.hasData && snapshot.data!) {
+                      return MenuCard(parkings[index],
+                          context); // Muestra la tarjeta si está dentro de la distancia
+                    } else {
+                      return const SizedBox
+                          .shrink(); // No muestra nada si está fuera de la distancia
+                    }
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
 Widget MenuCard(Parking parking, BuildContext context) {
   return Card(
-    color: const Color.fromARGB(245, 245, 245, 245),
+    color: const Color(0xFFD4D8D9),
     elevation: 5,
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -134,7 +157,7 @@ Widget MenuCard(Parking parking, BuildContext context) {
             child: Text(
               parking
                   .name, // LE DAMOS EL VALOR DE "NAME" PROVENIENTE DE PARKINGDATA.DART
-              style: const TextStyle(
+              style: TextStyle(
                   color: Color.fromARGB(255, 2, 120, 174),
                   fontSize: 20,
                   fontWeight: FontWeight.w800),
