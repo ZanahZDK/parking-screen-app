@@ -1,17 +1,7 @@
 // ignore_for_file: file_names, non_constant_identifier_names, library_private_types_in_public_api, avoid_print, unused_element, prefer_const_constructors, sort_child_properties_last, depend_on_referenced_packages
 
-//IMPORT DATA DE ESTACIONAMIENTOS
-import 'package:flutter_application_1/ScreenEstacionamientos/CostaneraCenter.dart';
-import 'package:flutter_application_1/ScreenEstacionamientos/FloridaCenter.dart';
-import 'package:flutter_application_1/ScreenEstacionamientos/MPAlameda.dart';
-import 'package:flutter_application_1/ScreenEstacionamientos/MPEga%C3%B1a.dart';
-import 'package:flutter_application_1/ScreenEstacionamientos/MPLosDominicos.dart';
-import 'package:flutter_application_1/ScreenEstacionamientos/MPSur.dart';
-import 'package:flutter_application_1/ScreenEstacionamientos/MPVespucio.dart';
-import 'package:flutter_application_1/ScreenEstacionamientos/ParqueArauco.dart';
-import 'package:flutter_application_1/ScreenEstacionamientos/OpenKennedy.dart';
+import 'package:flutter_application_1/Data/NavigationHelper.dart';
 import 'package:flutter_application_1/Data/ParkingData.dart';
-import 'package:flutter_application_1/ScreenEstacionamientos/PaseoQuilin.dart';
 
 //IMPORT PACKAGES
 
@@ -21,52 +11,6 @@ import 'package:geodesy/geodesy.dart' as geodesy; // Alias para Geodesy
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart' as latlng2; // Alias para latlong2
-
-void _navigateToParkingDetail(BuildContext context, int parkingId) {
-  switch (parkingId) {
-    case 1:
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const CostaneraCenterScreen()));
-      break;
-    case 2:
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const ParqueAraucoScreen()));
-      break;
-    case 3:
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const FloridaCenterScreen()));
-      break;
-    case 4:
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const MPVespucioScreen()));
-      break;
-    case 5:
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const MPAlamedaScreen()));
-      break;
-    case 6:
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const MPEganaScreen()));
-      break;
-    case 7:
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const MPSurScreen()));
-      break;
-    case 8:
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const PaseoQuilinScreen()));
-      break;
-    case 9:
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const MPLosDominicosScreen()));
-      break;
-    case 10:
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const OpenKennedyScreen()));
-      break;
-    // Puedes agregar más casos aquí para otros estacionamientos
-  }
-}
 
 class SlideUpMenuContent extends StatefulWidget {
   const SlideUpMenuContent({super.key});
@@ -226,7 +170,7 @@ Widget MenuCard(Parking parking, BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
-                onPressed: () => _navigateToParkingDetail(context, parking.id),
+                onPressed: () => navigateToParkingDetail(context, parking.id),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 2, 120, 174)),
                 child: const Text(
