@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ParqueAraucoScreen extends StatefulWidget {
-  const ParqueAraucoScreen({super.key});
+class MPAlamedaScreen extends StatefulWidget {
+  const MPAlamedaScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _ParqueAraucoScreenState createState() => _ParqueAraucoScreenState();
+  _MPAlamedaScreenState createState() => _MPAlamedaScreenState();
 }
 
-class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
+class _MPAlamedaScreenState extends State<MPAlamedaScreen> {
   List<dynamic> parkingSpaces = [];
   String selectedFloor = 'Nivel 1';
 
@@ -38,8 +38,8 @@ class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
   @override
   void initState() {
     super.initState();
-    loadParkingSpaces('Nivel 1', 2);
-    loadParkingLotName(2);
+    loadParkingSpaces('Nivel 1', 5);
+    loadParkingLotName(5);
   }
 
   //PARA MANEJAR EL ERROR DE QUE LA APP SE CIERRA AL CARGAR DOS ESTADOS A LA VEZ
@@ -103,17 +103,17 @@ class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
                 Padding(
                   padding: const EdgeInsets.only(
                       bottom: 50.0), // Ajusta el padding como desees
-                  child: floorButton('Nivel 1', 2),
+                  child: floorButton('Nivel 1', 5),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       bottom: 50.0), // Ajusta el padding como desees
-                  child: floorButton('Nivel 2', 2),
+                  child: floorButton('Nivel 2', 5),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       bottom: 50.0), // Ajusta el padding como desees
-                  child: floorButton('Nivel 3', 2),
+                  child: floorButton('Nivel 3', 5),
                 ),
               ],
             ),

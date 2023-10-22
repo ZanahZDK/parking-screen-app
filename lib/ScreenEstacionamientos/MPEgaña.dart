@@ -1,17 +1,16 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, library_private_types_in_public_api
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ParqueAraucoScreen extends StatefulWidget {
-  const ParqueAraucoScreen({super.key});
+class MPEganaScreen extends StatefulWidget {
+  const MPEganaScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _ParqueAraucoScreenState createState() => _ParqueAraucoScreenState();
+  _MPEganaScreenState createState() => _MPEganaScreenState();
 }
 
-class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
+class _MPEganaScreenState extends State<MPEganaScreen> {
   List<dynamic> parkingSpaces = [];
   String selectedFloor = 'Nivel 1';
 
@@ -38,8 +37,8 @@ class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
   @override
   void initState() {
     super.initState();
-    loadParkingSpaces('Nivel 1', 2);
-    loadParkingLotName(2);
+    loadParkingSpaces('Nivel 1', 6);
+    loadParkingLotName(6);
   }
 
   //PARA MANEJAR EL ERROR DE QUE LA APP SE CIERRA AL CARGAR DOS ESTADOS A LA VEZ
@@ -103,17 +102,17 @@ class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
                 Padding(
                   padding: const EdgeInsets.only(
                       bottom: 50.0), // Ajusta el padding como desees
-                  child: floorButton('Nivel 1', 2),
+                  child: floorButton('Nivel 1', 6),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       bottom: 50.0), // Ajusta el padding como desees
-                  child: floorButton('Nivel 2', 2),
+                  child: floorButton('Nivel 2', 6),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       bottom: 50.0), // Ajusta el padding como desees
-                  child: floorButton('Nivel 3', 2),
+                  child: floorButton('Nivel 3', 6),
                 ),
               ],
             ),
