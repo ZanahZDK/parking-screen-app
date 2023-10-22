@@ -139,7 +139,7 @@ class _ParqueAraucoScreenState extends State<ParqueAraucoScreen> {
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {
-            return floor == selectedFloor ? Colors.blue : Colors.grey;
+            return floor == selectedFloor ? const Color.fromARGB(255, 32, 140, 255): Colors.grey;
           },
         ),
       ),
