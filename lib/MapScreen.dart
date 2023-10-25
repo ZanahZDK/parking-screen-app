@@ -178,7 +178,7 @@ class _MapScreenState extends State<MapScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const HelpCenterPage()));
+                        builder: (context) => const TarifasPage()));
               },
             ),
             // Agrega más opciones de menú según tus necesidades

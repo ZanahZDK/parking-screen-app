@@ -58,6 +58,7 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
       accuracy: LocationAccuracy.high,
       distanceFilter: 100,
     );
+    // ignore: unused_local_variable
     StreamSubscription<Position> positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position? position) {
