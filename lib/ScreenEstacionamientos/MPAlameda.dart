@@ -21,7 +21,7 @@ class _MPAlamedaScreenState extends State<MPAlamedaScreen> {
   // Método para cargar el nombre del estacionamiento
   loadParkingLotName(int parkingLotId) async {
     final response = await http
-        .get(Uri.parse('http://10.0.2.2:8080/parking_lot/$parkingLotId'));
+        .get(Uri.parse('http://16.16.155.202:8080/parking_lot/$parkingLotId'));
     if (response.statusCode == 200) {
       var parkingLot = json.decode(response.body);
 
@@ -53,7 +53,7 @@ class _MPAlamedaScreenState extends State<MPAlamedaScreen> {
 
   loadParkingSpaces(String floor, int parkingLotId) async {
     final response = await http.get(Uri.parse(
-        'http://10.0.2.2:8080/parking_space/byFloorAndParkingLot/$floor/$parkingLotId'));
+        'http://16.16.155.202:8080/parking_space/byFloorAndParkingLot/$floor/$parkingLotId'));
     if (response.statusCode == 200) {
       var spaces = json.decode(response.body) as List;
 

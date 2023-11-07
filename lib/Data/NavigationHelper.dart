@@ -1,16 +1,29 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/AltoLasCondes.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/Apumanque.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/AraucoElBosque.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/AraucoMaipu.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/AraucoQuilicura.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/BarrioIndependencia.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/CostaneraCenter.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/EUPuenteAlto.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/FloridaCenter.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/MPAlameda.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/MPEga%C3%B1a.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/MPLosDominicos.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/MPOeste.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/MPSur.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/MPTobalaba.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/MPVespucio.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/OpenKennedy.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/OpenPuenteAlto.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/ParqueArauco.dart';
 import 'package:flutter_application_1/ScreenEstacionamientos/PaseoQuilin.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/PaseoSanBernardo.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/PortalDehesa.dart';
+import 'package:flutter_application_1/ScreenEstacionamientos/PortalReina.dart';
 
 void navigateToParkingDetail(BuildContext context, int parkingId) {
   switch (parkingId) {
@@ -54,6 +67,57 @@ void navigateToParkingDetail(BuildContext context, int parkingId) {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => const OpenKennedyScreen()));
       break;
-    // Puedes agregar más casos aquí para otros estacionamientos
+    case 11:
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const AltoLasCondesScreen()));
+      break;
+    case 12:
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const PortalDehesaScreen()));
+      break;
+    case 13:
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const PortalReinaScreen()));
+      break;
+    case 14:
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const ApumanqueScreen()));
+      break;
+    case 15:
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const BarrioIndependenciaScreen()));
+      break;
+    case 16:
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const PaseoSanBernardoScreen()));
+      break;
+    case 17:
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const MPTobalabaScreen()));
+      break;
+    case 18:
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const OpenPuenteAltoScreen()));
+      break;
+    case 19:
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const EUPuenteAltoScreen()));
+      break;
+    case 20:
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const AraucoElBosqueScreen()));
+      break;
+    case 21:
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const MPOesteScreen()));
+      break;
+    case 22:
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const AraucoMaipuScreen()));
+      break;
+    case 23:
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const AraucoQuilicuraScreen()));
+      break;
   }
 }

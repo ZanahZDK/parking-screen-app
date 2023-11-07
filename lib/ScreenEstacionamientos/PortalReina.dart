@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class MPSurScreen extends StatefulWidget {
-  const MPSurScreen({super.key});
+class PortalReinaScreen extends StatefulWidget {
+  const PortalReinaScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _MPSurScreenState createState() => _MPSurScreenState();
+  _PortalReinaScreenState createState() => _PortalReinaScreenState();
 }
 
-class _MPSurScreenState extends State<MPSurScreen> {
+class _PortalReinaScreenState extends State<PortalReinaScreen> {
   List<dynamic> parkingSpaces = [];
   String selectedFloor = 'Nivel 1';
 
@@ -38,8 +38,8 @@ class _MPSurScreenState extends State<MPSurScreen> {
   @override
   void initState() {
     super.initState();
-    loadParkingSpaces('Nivel 1', 7);
-    loadParkingLotName(7);
+    loadParkingSpaces('Nivel 1', 13);
+    loadParkingLotName(13);
   }
 
   //PARA MANEJAR EL ERROR DE QUE LA APP SE CIERRA AL CARGAR DOS ESTADOS A LA VEZ
@@ -103,17 +103,17 @@ class _MPSurScreenState extends State<MPSurScreen> {
                 Padding(
                   padding: const EdgeInsets.only(
                       bottom: 50.0), // Ajusta el padding como desees
-                  child: floorButton('Nivel 1', 7),
+                  child: floorButton('Nivel 1', 13),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       bottom: 50.0), // Ajusta el padding como desees
-                  child: floorButton('Nivel 2', 7),
+                  child: floorButton('Nivel 2', 13),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
                       bottom: 50.0), // Ajusta el padding como desees
-                  child: floorButton('Nivel 3', 7),
+                  child: floorButton('Nivel 3', 13),
                 ),
               ],
             ),

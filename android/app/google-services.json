@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "887979619304",
+    "project_id": "sparking-399700",
+    "storage_bucket": "sparking-399700.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887979619304:android:4d78f778b116774509aa5d",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdYjyLmpI_RUulaqRuLuA23NvPxTNExZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

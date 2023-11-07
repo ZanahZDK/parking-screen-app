@@ -1,146 +1,205 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
-void main() {
-  runApp(const MyApp());
-}
-
-class  MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HelpCenterPage(),
-    );
-  }
-}
-
-class HelpCenterPage extends StatelessWidget {
-  const HelpCenterPage({super.key});
+class TarifasPage extends StatefulWidget {
+  const TarifasPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Centro de Ayuda'),
-        backgroundColor: const Color.fromARGB(255, 2, 120, 174),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            Card(
-              child: ListTile(
-                title: const Text('Calcular Tarifas'),
-                subtitle: const Text('Información sobre tarifas y precios.'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>  TarifasPage()),
-                  );
-                },
-              ),
-            ),
-            // Puedes agregar más elementos de la lista para otros temas de ayuda aquí.
-          ],
-        ),
-      ),
-    );
-  }
+  TarifasPageState createState() => TarifasPageState();
 }
 
-class TarifasPage extends StatelessWidget {
+class TarifasPageState extends State<TarifasPage> {
   final TextEditingController _horasController = TextEditingController();
-
-  TarifasPage({super.key});
+  List<dynamic> parkingLots = [];
+  String? selectedParkingLot;
+  double hourlyRate = 0; // Asumiendo que obtendrás esto de tu API
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tarifas de Estacionamiento'),
-        backgroundColor: const Color.fromARGB(255, 2, 120, 174),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Tarifas de Estacionamiento',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Aquí encontrarás información detallada sobre las tarifas de estacionamiento en nuestro establecimiento.',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Tarifa por hora:',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const Text(
-                      'USD 2000 por hora.',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Tarifa diaria:',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const Text(
-                      'USD 10.000 por día.',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Calculadora:',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: _horasController,
-                      decoration: const InputDecoration(
-                        labelText: 'Horas',
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        final horas = int.parse(_horasController.text);
-                        final costoTotal = horas * 2.000;
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('Resultado'),
-                            content: Text('El costo total es: USD $costoTotal'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Aceptar'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      child: const Text('Calcular'),
-                    ),
-                  ],
-                ),
+  void initState() {
+    super.initState();
+    loadParkingLots();
+  }
+
+  void loadHourlyRate(String parkingLotId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://16.16.155.202:8080/parking_lot/$parkingLotId/price'),
+      );
+
+      if (response.statusCode == 200) {
+        if (mounted) {
+          setState(() {
+            hourlyRate = double.parse(response.body);
+          });
+        }
+      } else {
+        // Manejar error cuando el statusCode no es 200
+        showError(
+            'Error al cargar la tarifa. Código de estado: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Manejar otros errores, como problemas de red
+      showError('Ocurrió un error al cargar la tarifa: $e');
+    }
+  }
+
+  Future<void> loadParkingLots() async {
+    try {
+      final response =
+          await http.get(Uri.parse('http://16.16.155.202:8080/parking_lot'));
+
+      if (response.statusCode == 200) {
+        if (mounted) {
+          // Verifica si el estado todavía está montado
+          setState(() {
+            parkingLots = json.decode(response.body);
+          });
+        }
+      } else {
+        // Manejar error cuando el statusCode no es 200
+        showError(
+            'Error al cargar los datos. Código de estado: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Manejar otros errores, como problemas de red
+      showError('Ocurrió un error al cargar los datos: $e');
+    }
+  }
+
+  void calculateFee() {
+    String hoursText = _horasController.text;
+
+    if (hoursText.isEmpty) {
+      showError('Por favor, ingrese un número de horas.');
+      return;
+    }
+
+    try {
+      int hours = int.parse(hoursText);
+      double totalFee = hours * hourlyRate;
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Tarifa Calculada'),
+            content: Text('La tarifa total es de: CLP \$${totalFee.toInt()}'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cerrar'),
               ),
             ],
-          ),
+          );
+        },
+      );
+    } on FormatException {
+      showError('Por favor, ingrese un número de horas válido.');
+    } catch (e) {
+      showError('Por favor, ingrese un número de horas válido.');
+    }
+  }
+
+  void showError(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cerrar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 2, 120, 174),
+          title: const Text('Tarifas de Estacionamiento'),
         ),
-      ),
+        body: Container(
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 2, 120, 174),
+            ),
+            child: Stack(children: <Widget>[
+              Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/god.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Center(
+                // Centrar la Card en la pantalla
+                child: Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(
+                          20.0), // Ajustar el padding según sea necesario
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min, // Ajustar al contenido
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DropdownButton<String>(
+                            items: parkingLots.map((lot) {
+                              return DropdownMenuItem<String>(
+                                value: lot['id'].toString(),
+                                child: Text(lot['name']),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedParkingLot = newValue;
+                                if (newValue != null) {
+                                  loadHourlyRate(newValue);
+                                }
+                              });
+                            },
+                            hint: const Text('Selecciona un estacionamiento'),
+                            value: selectedParkingLot,
+                          ),
+                          TextField(
+                            controller: _horasController,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              labelText: 'Horas',
+                              hintText: 'Ingrese la cantidad de horas',
+                            ),
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter
+                                  .digitsOnly // Aceptar solo dígitos
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: calculateFee,
+                            child: const Text('Calcular Tarifa', ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ]
+        )
+      )
     );
   }
 }

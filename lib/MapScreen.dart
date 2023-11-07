@@ -2,14 +2,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Data/firebase_options.dart';
+import 'package:flutter_application_1/Features/firebase_options.dart';
 // ignore: unused_import
-import 'package:flutter_application_1/Features/inicio_sesion.dart';
+import 'package:flutter_application_1/Data/inicio_sesion.dart';
+import 'package:flutter_application_1/Features/mallasociado.dart';
+import 'package:flutter_application_1/Features/info.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/Features/tarifas.dart';
+import 'package:flutter_application_1/Features/shared_preferences.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_application_1/Features/SlideUpMenuContent.dart';
+import 'package:flutter_application_1/Data/SlideUpMenuContent.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flutter_application_1/Data/Markers.dart';
 
@@ -126,6 +130,11 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String displayName = '';
+    if (FirebaseAuth.instance.currentUser != null) {
+      displayName = FirebaseAuth.instance.currentUser?.displayName ?? '';
+      // Resto de tu código utilizando el nombre de usuario
+    }
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -154,34 +163,58 @@ class _MapScreenState extends State<MapScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 2, 120, 174),
               ),
-              child: Text(
-                'Menú',
-                style: TextStyle(
+              accountName: Text(
+                displayName,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
                 ),
               ),
+              accountEmail: null,
+              currentAccountPicture: const CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/Slots.png')),
             ),
             ListTile(
-              title: const Text('Opción 1'),
+              title: const Text('Ver Perfil'),
+              onTap: () {},
+            ),
+            ListTile(
+              title: const Text('Mall Asociados'),
               onTap: () {
-                // Acción al seleccionar la opción 1
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ImageGridScreen(),
+                  ),
+                );
               },
             ),
             ListTile(
               title: const Text('Tarifas'),
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HelpCenterPage()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TarifasPage(),
+                  ),
+                );
               },
             ),
-            // Agrega más opciones de menú según tus necesidades
+            ListTile(
+              title: const Text('Información'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ParkingAppPage(),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

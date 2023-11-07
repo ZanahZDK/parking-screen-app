@@ -1,8 +1,9 @@
 // ignore_for_file: file_names
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Features/firebase_options.dart';
 import 'package:flutter_application_1/MapScreen.dart';
-import 'package:flutter_application_1/Data/firebase_options.dart';
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -48,7 +49,7 @@ class _ParkingSpacesScreenState extends State<ParkingSpacesScreen> {
 
   loadParkingSpaces(String floor, int parkingLotId) async {
     final response = await http.get(Uri.parse(
-        'http://10.0.2.2:8080/parking_space/byFloorAndParkingLot/$floor/$parkingLotId'));
+        'http://16.16.155.202:8080/parking_space/byFloorAndParkingLot/$floor/$parkingLotId'));
     if (response.statusCode == 200) {
       var spaces = json.decode(response.body) as List;
 

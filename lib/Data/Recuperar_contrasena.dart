@@ -1,11 +1,9 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, unused_local_variable
-// ignore_for_file: unused_import
+// ignore: file_names
+// ignore_for_file: unused_import, file_names, duplicate_ignore, use_build_context_synchronously, avoid_print, unused_local_variable
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Features/Recuperar_contrasena.dart';
-import 'package:flutter_application_1/Data/firebase_options.dart';
 import 'package:flutter_application_1/main.dart';
 
 class MyApp extends StatelessWidget {
@@ -14,37 +12,34 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login App',
+      title: 'Recovery Password',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
       ),
-      home: const LoginPage(),
+      home: const RecuperarPassword(),
     );
   }
 }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RecuperarPassword extends StatefulWidget {
+  const RecuperarPassword({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RecuperarPassword> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<RecuperarPassword> {
   late Color myColor;
   late Size mediaSize;
+  bool showpassword = true;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool rememberUser = false;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController patenteController = TextEditingController();
+  TextEditingController rutController = TextEditingController();
 
-  @override
-  void initState() {
-    if (FirebaseAuth.instance.currentUser != null) {
-      print(FirebaseAuth.instance.currentUser?.uid);
-      Navigator.pop(context);
-    }
-    super.initState();
-  }
+  bool rememberUser = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +47,13 @@ class _LoginPageState extends State<LoginPage> {
     mediaSize = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color: myColor,
+        //color: myColor,
         image: DecorationImage(
-          image: const AssetImage("assets/images/bg.png"),
+          image: const AssetImage("assets/images/esta.jpeg"),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            myColor.withOpacity(0.5),
-            BlendMode.dstATop,
+            myColor.withOpacity(0.0),
+            BlendMode.color,
           ),
         ),
       ),
@@ -67,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
         body: Stack(
           children: [
             Positioned(
-              top: 40,
+              top: 80,
               child: _buildTop(),
             ),
             Positioned(
@@ -86,11 +81,11 @@ class _LoginPageState extends State<LoginPage> {
       child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.location_on_sharp,
-            size: 100,
-            color: Colors.white,
-          ),
+          // Icon(
+          //   Icons.location_on_sharp,
+          //   size: 100,
+          //   color: Colors.white,
+          // ),
           Text(
             "Parking Finder",
             style: TextStyle(
@@ -127,26 +122,38 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           "Bienvenido",
           style: TextStyle(
-            color: myColor,
+            color: Color.fromARGB(255, 2, 120, 174),
             fontSize: 32,
             fontWeight: FontWeight.w500,
           ),
         ),
-        _buildGreyText("Ingrese Su Informacion Para Iniciar Sesion"),
-        const SizedBox(height: 60),
+        _buildGreyText("Ingrese Su Informacion Para Recuperar Su Cuenta"),
+        const SizedBox(height: 50),
         _buildGreyText("Correo Electronico"),
         _buildInputField(emailController),
-        const SizedBox(height: 40),
+        const SizedBox(height: 15),
         _buildGreyText("Contraseña"),
-        _buildInputField(passwordController, isPassword: true),
-        const SizedBox(height: 20),
-        _buildRememberForgot(),
-        const SizedBox(height: 20),
+        _buildInputField(
+          passwordController,
+          isPassword: true,
+        ),
+        const SizedBox(height: 15),
+        _buildGreyText("Nombre Completo"),
+        _buildInputField(nameController),
+        const SizedBox(height: 15),
+        _buildGreyText("Patente"),
+        _buildInputField(patenteController),
+        const SizedBox(height: 15),
+        _buildGreyText("Rut"),
+        _buildInputField(rutController),
+        const SizedBox(height: 15),
+        _buildGreyText("Telefono"),
+        _buildInputField(phoneController),
+        const SizedBox(height: 15),
         _buildLoginButton(),
-        const SizedBox(height: 20),
       ],
     );
   }
@@ -163,42 +170,20 @@ class _LoginPageState extends State<LoginPage> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        suffixIcon: isPassword
-            ? const Icon(Icons.remove_red_eye)
-            : const Icon(Icons.done),
+        suffixIcon: GestureDetector(
+            onTap: isPassword
+                ? () {
+                    showpassword = !showpassword;
+                    setState(() {});
+                  }
+                : () {},
+            child: isPassword
+                ? showpassword
+                    ? const Icon(Icons.visibility_off)
+                    : const Icon(Icons.remove_red_eye)
+                : const Icon(Icons.done)),
       ),
-      obscureText: isPassword,
-    );
-  }
-
-  Widget _buildRememberForgot() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Checkbox(
-              value: rememberUser,
-              onChanged: (value) {
-                setState(() {
-                  rememberUser = value!;
-                });
-              },
-            ),
-            _buildGreyText("Recuerdame"),
-          ],
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const RecuperarPassword()),
-            );
-          },
-          child: _buildGreyText("Crear Cuenta"),
-        ),
-      ],
+      obscureText: isPassword && showpassword,
     );
   }
 
@@ -209,30 +194,39 @@ class _LoginPageState extends State<LoginPage> {
         debugPrint("Password: ${passwordController.text}");
 
         try {
-          final credential = await FirebaseAuth.instance
-              .signInWithEmailAndPassword(
-                  email: emailController.text,
-                  password: passwordController.text);
-          print(credential.toString());
+          final credential =
+              await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text,
+          );
+
+          User usuario = credential.user!;
+          await usuario.updateDisplayName(nameController.text);
+
+          await usuario.reload();
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const ParkingApp()),
           );
         } on FirebaseAuthException catch (e) {
-          if (e.code == 'user-not-found') {
-            print('No user found for that email.');
-          } else if (e.code == 'wrong-password') {
-            print('Wrong password provided for that user.');
+          if (e.code == 'weak-password') {
+            print('The password provided is too weak.');
+          } else if (e.code == 'email-already-in-use') {
+            print('The account already exists for that email.');
           }
+        } catch (e) {
+          print(e);
         }
       },
       style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 2, 120, 174),
         shape: const StadiumBorder(),
         elevation: 20,
         shadowColor: myColor,
         minimumSize: const Size.fromHeight(60),
       ),
-      child: const Text("Ingresar"),
+      child: const Text("Registrar"),
     );
   }
 }
