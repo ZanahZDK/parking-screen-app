@@ -75,7 +75,7 @@ class _ParkingDetailScreenState extends State<ParkingDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Parking Finder')),
+      appBar: AppBar(title: const Text('Slot')),
       body: Column(
         children: [
           Container(
