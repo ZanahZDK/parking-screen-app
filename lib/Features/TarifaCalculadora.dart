@@ -25,7 +25,7 @@ class TarifasPageState extends State<TarifasPage> {
   void loadHourlyRate(String parkingLotId) async {
     try {
       final response = await http.get(
-        Uri.parse('http://16.16.155.202:8080/parking_lot/$parkingLotId/price'),
+        Uri.parse('http://10.0.2.2:8080/parking_lot/$parkingLotId/minutePrice'),
       );
 
       if (response.statusCode == 200) {
@@ -48,7 +48,7 @@ class TarifasPageState extends State<TarifasPage> {
   Future<void> loadParkingLots() async {
     try {
       final response =
-          await http.get(Uri.parse('http://16.16.155.202:8080/parking_lot'));
+          await http.get(Uri.parse('http://10.0.2.2:8080/parking_lot'));
 
       if (response.statusCode == 200) {
         if (mounted) {
@@ -72,7 +72,7 @@ class TarifasPageState extends State<TarifasPage> {
     String hoursText = _horasController.text;
 
     if (hoursText.isEmpty) {
-      showError('Por favor, ingrese un número de horas.');
+      showError('Por favor, ingrese un número de minutos.');
       return;
     }
 
@@ -178,8 +178,8 @@ class TarifasPageState extends State<TarifasPage> {
                             controller: _horasController,
                             keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
-                              labelText: 'Horas',
-                              hintText: 'Ingrese la cantidad de horas',
+                              labelText: 'Minutos',
+                              hintText: 'Ingrese la cantidad de minutos',
                             ),
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter
@@ -189,17 +189,16 @@ class TarifasPageState extends State<TarifasPage> {
                           const SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: calculateFee,
-                            child: const Text('Calcular Tarifa', ),
-                        ),
-                      ],
+                            child: const Text(
+                              'Calcular Tarifa',
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ]
-        )
-      )
-    );
+            ])));
   }
 }

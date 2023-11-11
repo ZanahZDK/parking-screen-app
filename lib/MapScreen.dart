@@ -8,7 +8,7 @@ import 'package:flutter_application_1/Data/inicio_sesion.dart';
 import 'package:flutter_application_1/Features/mallasociado.dart';
 import 'package:flutter_application_1/Features/info.dart';
 import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/Features/tarifas.dart';
+import 'package:flutter_application_1/Features/TarifaCalculadora.dart';
 import 'package:flutter_application_1/Features/shared_preferences.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,6 +33,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
   late LatLng _currentPosition;
+  Set<Marker> customMarkers = {};
 
   final String _mapStyle = '''
     [
@@ -111,6 +112,19 @@ class _MapScreenState extends State<MapScreen> {
       }
     ]
   ''';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMarkers(); // Carga los marcadores al iniciar el estado
+  }
+
+  void _loadMarkers() async {
+    var markers = await fetchMarkers(); // Obtén los marcadores de la función
+    setState(() {
+      customMarkers = Set<Marker>.from(markers);
+    });
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -229,7 +243,9 @@ class _MapScreenState extends State<MapScreen> {
             zoom: 15.0,
           ),
           myLocationEnabled: true,
-          markers: Set<Marker>.from(customMarkers),
+          markers: Set<Marker>.from(
+            customMarkers,
+          ),
         ),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24.0),
