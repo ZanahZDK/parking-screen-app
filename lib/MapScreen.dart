@@ -170,7 +170,7 @@ class _MapScreenState extends State<MapScreen> {
                   },
                   icon: const Icon(Icons.logout))
         ],
-        title: const Text('Parking Finder'),
+        title: const Text('Slot'),
         backgroundColor: const Color.fromARGB(255, 2, 120, 174),
       ),
       drawer: Drawer(
@@ -252,7 +252,7 @@ class _MapScreenState extends State<MapScreen> {
           topRight: Radius.circular(24.0),
         ),
         minHeight: 100.0, // Altura mínima del panel
-        maxHeight: 1000.0, // Altura máxima del panel
+        maxHeight: 850.0, // Altura máxima del panel
       ),
     );
   }

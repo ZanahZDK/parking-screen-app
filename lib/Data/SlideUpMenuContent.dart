@@ -107,6 +107,32 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          Container(
+            height: 18.9,
+            width: 140,
+            margin: EdgeInsets.only(top: 15, bottom: 15),
+            child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: 10,
+                ),
+                child: ElevatedButton(
+                    onPressed: () {},
+                    child: null,
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 2, 120, 174),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30))))),
+          ),
+          Center(
+            child: Container(
+              child: Text('Deslice Hacia Arriba',
+                  style: TextStyle(color: Color(0xFF607D8B))),
+              width: MediaQuery.sizeOf(context).width,
+              height: 50,
+              alignment: AlignmentDirectional.center,
+              padding: const EdgeInsets.only(bottom: 16),
+            ),
+          ),
           // Tu UI aquí, como el botón y el texto 'Deslice Hacia Arriba'
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -137,10 +163,14 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
 
   Widget MenuCard(Parking parking, BuildContext context) {
     return Card(
-      color: const Color(0xFFD4D8D9),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0), // Esquinas redondeadas
+      ),
+      color: Color(0xFFF5F5F5),
       elevation: 5,
+      margin: EdgeInsets.all(10), // Espaciado alrededor de la tarjeta
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: EdgeInsets.all(15), // Espaciado interno de la tarjeta
         child: Column(
           children: [
             Padding(
@@ -154,46 +184,54 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
                     fontWeight: FontWeight.w800),
               ),
             ),
+            SizedBox(height: 15),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    const Icon(Icons.pin_drop),
-                    Text(parking.direction) // Valor de "ubication"
-                  ],
-                ),
-                Text('\$ ${parking.hourPrice} por hora') // Valor de "hourPrice"
+                Icon(Icons.location_on, color: Colors.black),
+                SizedBox(width: 5),
+                Text(parking.direction, style: TextStyle(color: Colors.black)),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    const Icon(Icons.directions_car),
-                    Text(
-                        '${parking.totalSpaces} espacios') // Valor de "totalSpaces"
-                  ],
-                ),
-                Text(
-                    '\$${parking.minutePrice} por minuto') // Valor de "minutePrice"
+                Icon(Icons.directions_car, color: Colors.black),
+                SizedBox(width: 5),
+                Text('${parking.totalSpaces} espacios en total',
+                    style: TextStyle(color: Colors.black)),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
+            Divider(
+              thickness: 2, // Ajusta el grosor de la línea del Divider
+              color: Colors.grey, // Ajusta el color del Divider
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
                   onPressed: () => navigateToParkingDetail(context, parking.id),
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 2, 120, 174)),
+                    backgroundColor: const Color.fromARGB(255, 2, 120, 174),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10), // Aquí defines el radio de la curvatura
+                    ),
+                  ),
                   child: const Text(
                     "Ver Información",
                     style: TextStyle(color: Colors.white),
                   ),
-                )
+                ),
+                Text(
+                  '\$${parking.hourPrice}/hr',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
               ],
             ),
           ],
