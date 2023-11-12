@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 Future<List<Marker>> fetchMarkers() async {
   final response =
-      await http.get(Uri.parse('http://10.0.2.2:8080/parking_lot'));
+      await http.get(Uri.parse('http://16.170.227.32:8080/parking_lot'));
 
   if (response.statusCode == 200) {
     List<dynamic> parkingLotsJson = json.decode(response.body);

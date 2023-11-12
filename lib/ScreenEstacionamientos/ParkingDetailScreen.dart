@@ -49,8 +49,8 @@ class _ParkingDetailScreenState extends State<ParkingDetailScreen> {
 
   loadParkingLotName(int parkingLotId) async {
     try {
-      final response = await http
-          .get(Uri.parse('http://10.0.2.2:8080/parking_lot/$parkingLotId'));
+      final response = await http.get(
+          Uri.parse('http://16.170.227.32:8080/parking_lot/$parkingLotId'));
       if (response.statusCode == 200) {
         var parkingLot = json.decode(response.body);
         if (mounted) {
@@ -69,7 +69,7 @@ class _ParkingDetailScreenState extends State<ParkingDetailScreen> {
   loadParkingSpaces(String floor, int parkingLotId) async {
     try {
       final response = await http.get(Uri.parse(
-          'http://10.0.2.2:8080/parking_space/byFloorAndParkingLot/$floor/$parkingLotId'));
+          'http://16.170.227.32:8080/parking_space/byFloorAndParkingLot/$floor/$parkingLotId'));
       if (response.statusCode == 200) {
         var spaces = json.decode(response.body) as List;
         spaces.sort((a, b) =>

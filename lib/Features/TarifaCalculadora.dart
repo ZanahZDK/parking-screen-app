@@ -27,7 +27,8 @@ class TarifasPageState extends State<TarifasPage> {
   void loadHourlyRate(String parkingLotId) async {
     try {
       final response = await http.get(
-        Uri.parse('http://10.0.2.2:8080/parking_lot/$parkingLotId/minutePrice'),
+        Uri.parse(
+            'http://16.170.227.32:8080/parking_lot/$parkingLotId/minutePrice'),
       );
 
       if (response.statusCode == 200) {
@@ -50,7 +51,7 @@ class TarifasPageState extends State<TarifasPage> {
   Future<void> loadParkingLots() async {
     try {
       final response =
-          await http.get(Uri.parse('http://10.0.2.2:8080/parking_lot'));
+          await http.get(Uri.parse('http://16.170.227.32:8080/parking_lot'));
 
       if (response.statusCode == 200) {
         if (mounted) {
