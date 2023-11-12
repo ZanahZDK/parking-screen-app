@@ -205,8 +205,8 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
             ),
             SizedBox(height: 10),
             Divider(
-              thickness: 2, // Ajusta el grosor de la línea del Divider
-              color: Colors.grey, // Ajusta el color del Divider
+              thickness: 2,
+              color: Colors.grey,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

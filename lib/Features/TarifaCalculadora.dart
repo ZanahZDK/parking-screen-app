@@ -141,7 +141,7 @@ class TarifasPageState extends State<TarifasPage> {
               Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/god.jpg"),
+                    image: AssetImage("assets/images/estacionamiento2.jpg"),
                     fit: BoxFit.cover,
                   ),
                 ),
