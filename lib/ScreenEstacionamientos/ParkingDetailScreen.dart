@@ -34,7 +34,7 @@ class _ParkingDetailScreenState extends State<ParkingDetailScreen> {
   }
 
   void _startAutoRefresh() {
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       if (mounted) {
         loadParkingSpaces(selectedFloor, widget.parkingLotId);
       }
@@ -92,7 +92,7 @@ class _ParkingDetailScreenState extends State<ParkingDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Slot')),
+      appBar: AppBar(title: const Text('Parking Finder')),
       body: Column(
         children: [
           Container(

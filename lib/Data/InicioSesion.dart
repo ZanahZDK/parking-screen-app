@@ -1,10 +1,10 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, unused_local_variable
+// ignore_for_file: use_build_context_synchronously, avoid_print, file_names
 // ignore_for_file: unused_import
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Data/Recuperar_contrasena.dart';
+import 'package:flutter_application_1/Data/RecuperarContrasena.dart';
 
 import 'package:flutter_application_1/main.dart';
 
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: BoxDecoration(
         //color: myColor,
         image: DecorationImage(
-          image: const AssetImage("assets/images/god.jpg"),
+          image: const AssetImage("assets/images/estacionamiento2.jpg"),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             myColor.withOpacity(0.5),

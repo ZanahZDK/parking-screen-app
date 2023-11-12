@@ -4,8 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Features/firebase_options.dart';
 // ignore: unused_import
-import 'package:flutter_application_1/Data/inicio_sesion.dart';
-import 'package:flutter_application_1/Features/mallasociado.dart';
+import 'package:flutter_application_1/Data/InicioSesion.dart';
+import 'package:flutter_application_1/Features/MallAsociados.dart';
 import 'package:flutter_application_1/Features/info.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/Features/TarifaCalculadora.dart';
@@ -170,7 +170,7 @@ class _MapScreenState extends State<MapScreen> {
                   },
                   icon: const Icon(Icons.logout))
         ],
-        title: const Text('Slot'),
+        title: const Text('Parking Finder'),
         backgroundColor: const Color.fromARGB(255, 2, 120, 174),
       ),
       drawer: Drawer(
@@ -190,7 +190,7 @@ class _MapScreenState extends State<MapScreen> {
               ),
               accountEmail: null,
               currentAccountPicture: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/Slots.png')),
+                  backgroundImage: AssetImage('assets/images/id.png')),
             ),
             ListTile(
               title: const Text('Ver Perfil'),
@@ -227,6 +227,18 @@ class _MapScreenState extends State<MapScreen> {
                     builder: (context) => const ParkingAppPage(),
                   ),
                 );
+              },
+            ),
+            const SizedBox(height: 510),
+            const Divider(
+              thickness: 1, // Ajusta el grosor de la línea del Divider
+              color: Colors.grey, // Ajusta el color del Divider
+            ),
+            ListTile(
+              title: const Text('Cerrar Sesión'),
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                setState(() {});
               },
             ),
           ],

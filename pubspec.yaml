@@ -32,10 +32,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/Slots.png
-    - assets/images/esta.jpeg
-    - assets/images/god.jpg
-    - assets/images/sta.jpeg
+    - assets/images/id.png
+    - assets/images/estacionamiento1.jpeg
+    - assets/images/estacionamiento2.jpg
+    - assets/images/estacionamiento3.jpeg
     - assets/images/constanera.png
     - assets/images/FloridaCenter.webp
     - assets/images/alameda.jpeg
@@ -47,3 +47,15 @@ flutter:
     - assets/images/quilin.png
     - assets/images/vespuc.webp
     - assets/images/vespucio.png
+    - assets/images/altolascondes.webp
+    - assets/images/pladehesa.jpg
+    - assets/images/plareina.png
+    - assets/images/independencia.png
+    - assets/images/psanbernardo.png
+    - assets/images/mptobalaba.webp
+    - assets/images/oppuentealto.png
+    - assets/images/eupuentealto.png
+    - assets/images/araucoelbosque.png
+    - assets/images/mpoeste.png
+    - assets/images/maipu.png
+    - assets/images/quilicura.webp

@@ -49,7 +49,7 @@ class _LoginPageState extends State<RecuperarPassword> {
       decoration: BoxDecoration(
         //color: myColor,
         image: DecorationImage(
-          image: const AssetImage("assets/images/esta.jpeg"),
+          image: const AssetImage("assets/images/estacionamiento3.jpeg"),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             myColor.withOpacity(0.0),
