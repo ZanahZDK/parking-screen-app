@@ -1,9 +1,8 @@
-// ignore_for_file: file_names, library_private_types_in_public_api, sort_child_properties_last, unused_import, duplicate_ignore
+// ignore_for_file: file_names, library_private_types_in_public_api, sort_child_properties_last, unused_import, duplicate_ignore, unused_local_variable
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Features/firebase_options.dart';
-// ignore: unused_import
 import 'package:flutter_application_1/Data/InicioSesion.dart';
 import 'package:flutter_application_1/Features/MallAsociados.dart';
 import 'package:flutter_application_1/Features/info.dart';
@@ -116,11 +115,11 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    _loadMarkers(); // Carga los marcadores al iniciar el estado
+    _loadMarkers();
   }
 
   void _loadMarkers() async {
-    var markers = await fetchMarkers(); // Obtén los marcadores de la función
+    var markers = await fetchMarkers();
     setState(() {
       customMarkers = Set<Marker>.from(markers);
     });
@@ -144,10 +143,11 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     String displayName = '';
     if (FirebaseAuth.instance.currentUser != null) {
       displayName = FirebaseAuth.instance.currentUser?.displayName ?? '';
-      // Resto de tu código utilizando el nombre de usuario
     }
     return Scaffold(
       appBar: AppBar(
@@ -174,9 +174,8 @@ class _MapScreenState extends State<MapScreen> {
         backgroundColor: const Color.fromARGB(255, 2, 120, 174),
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
+        child: Column(
+          children: [
             UserAccountsDrawerHeader(
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 2, 120, 174),
@@ -188,9 +187,10 @@ class _MapScreenState extends State<MapScreen> {
                   fontSize: 24,
                 ),
               ),
-              accountEmail: null,
+              accountEmail: const Text(''),
               currentAccountPicture: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/id.png')),
+                backgroundImage: AssetImage('assets/images/id.png'),
+              ),
             ),
             ListTile(
               title: const Text('Ver Perfil'),
@@ -200,58 +200,61 @@ class _MapScreenState extends State<MapScreen> {
               title: const Text('Mall Asociados'),
               onTap: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ImageGridScreen(),
-                  ),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ImageGridScreen()));
               },
             ),
             ListTile(
               title: const Text('Tarifas'),
               onTap: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TarifasPage(),
-                  ),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TarifasPage()));
               },
             ),
             ListTile(
               title: const Text('Información'),
               onTap: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ParkingAppPage(),
-                  ),
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ParkingAppPage()));
               },
             ),
-            const SizedBox(height: 510),
-            const Divider(
-              thickness: 1, // Ajusta el grosor de la línea del Divider
-              color: Colors.grey, // Ajusta el color del Divider
-            ),
-            ListTile(
-              title: const Text('Cerrar Sesión'),
-              onTap: () async {
-                await FirebaseAuth.instance.signOut();
-                setState(() {});
-              },
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Divider(
+                      thickness: 1,
+                      color: Colors.grey,
+                    ),
+                    ListTile(
+                      title: const Text('Cerrar Sesión'),
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                        setState(() {});
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
       ),
       body: SlidingUpPanel(
         onPanelSlide: (position) {},
-        panel: const SlideUpMenuContent(), // Contenido del menú deslizante
+        panel: const SlideUpMenuContent(),
         body: GoogleMap(
           padding: const EdgeInsets.only(bottom: 200),
           onMapCreated: _onMapCreated,
           initialCameraPosition: const CameraPosition(
-            target: LatLng(0, 0), // posición inicial arbitraria
+            target: LatLng(0, 0),
             zoom: 15.0,
           ),
           myLocationEnabled: true,
@@ -263,8 +266,8 @@ class _MapScreenState extends State<MapScreen> {
           topLeft: Radius.circular(24.0),
           topRight: Radius.circular(24.0),
         ),
-        minHeight: 100.0, // Altura mínima del panel
-        maxHeight: 850.0, // Altura máxima del panel
+        minHeight: screenHeight * 0.1,
+        maxHeight: screenHeight * 0.8,
       ),
     );
   }
