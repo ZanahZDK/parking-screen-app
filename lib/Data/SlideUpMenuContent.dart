@@ -41,7 +41,7 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
     currentPosition = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
-    setState(() {}); // Esto actualizará la UI
+    setState(() {});
   }
 
   Future<bool> isWithinDistance(
@@ -83,101 +83,85 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return FutureBuilder<List<Parking>>(
-      future: Parking
-          .fetchMarkers(), // Asegúrate de que este método devuelva una lista de Parking
+      future: Parking.fetchMarkers(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
-          return _buildParkingList(
-              context,
-              snapshot
-                  .data!); // Pasamos la lista de parkings al método que construye la UI
+          return _buildParkingList(context, snapshot.data!);
         } else {
-          return Text('No se encontraron datos');
+          return Center(child: Text('No se encontraron datos'));
         }
       },
     );
   }
 
   Widget _buildParkingList(BuildContext context, List<Parking> parkings) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            height: 18.9,
-            width: 140,
-            margin: EdgeInsets.only(top: 15, bottom: 15),
-            child: Padding(
-                padding: EdgeInsets.only(
-                  bottom: 10,
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 15, bottom: 15),
+          child: Column(
+            children: [
+              Container(
+                height: 8.0,
+                width: 100,
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                child: ElevatedButton(
-                    onPressed: () {},
-                    child: null,
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 2, 120, 174),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30))))),
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                'Deslice hacia arriba',
+                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+              ),
+            ],
           ),
-          Center(
-            child: Container(
-              child: Text('Deslice Hacia Arriba',
-                  style: TextStyle(color: Color(0xFF607D8B))),
-              width: MediaQuery.sizeOf(context).width,
-              height: 50,
-              alignment: AlignmentDirectional.center,
-              padding: const EdgeInsets.only(bottom: 16),
-            ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: parkings.length,
+            itemBuilder: (BuildContext context, int index) {
+              return FutureBuilder<bool>(
+                future: isWithinDistance(parkings[index], 1000),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasData && snapshot.data!) {
+                    return MenuCard(parkings[index], context);
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
+              );
+            },
           ),
-          // Tu UI aquí, como el botón y el texto 'Deslice Hacia Arriba'
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: parkings.length,
-              itemBuilder: (BuildContext context, int index) {
-                return FutureBuilder<bool>(
-                  future: isWithinDistance(parkings[index], 1000),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasData && snapshot.data!) {
-                      return MenuCard(parkings[index], context);
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget MenuCard(Parking parking, BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0), // Esquinas redondeadas
+        borderRadius: BorderRadius.circular(15.0),
       ),
       color: Color(0xFFF5F5F5),
       elevation: 5,
-      margin: EdgeInsets.all(10), // Espaciado alrededor de la tarjeta
+      margin: EdgeInsets.all(10),
       child: Padding(
-        padding: EdgeInsets.all(15), // Espaciado interno de la tarjeta
+        padding: EdgeInsets.all(15),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                parking
-                    .name, // LE DAMOS EL VALOR DE "NAME" PROVENIENTE DE PARKINGDATA.DART
+                parking.name,
                 style: TextStyle(
                     color: Color.fromARGB(255, 2, 120, 174),
                     fontSize: 20,
@@ -216,8 +200,7 @@ class _SlideUpMenuContentState extends State<SlideUpMenuContent> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 2, 120, 174),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          10), // Aquí defines el radio de la curvatura
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   child: const Text(

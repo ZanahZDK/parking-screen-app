@@ -47,6 +47,47 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
+  void _showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Correo Enviado'),
+          content: const Text(
+              'Se ha enviado un enlace para restaurar su contraseña a su correo.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cerrar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cerrar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     myColor = Theme.of(context).primaryColorDark;
@@ -136,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        _buildGreyText("Ingrese Su Informacion Para Iniciar Sesion"),
+        _buildGreyText("Ingrese su informacion para iniciar sesion"),
         const SizedBox(height: 60),
         _buildGreyText("Correo Electronico"),
         _buildInputField(emailController),
@@ -197,21 +238,41 @@ class _LoginPageState extends State<LoginPage> {
         ),
         TextButton(
           onPressed: () async {
-            await FirebaseAuth.instance
-                .sendPasswordResetEmail(email: emailController.text);
             showDialog(
               context: context,
               builder: (BuildContext context) {
+                final TextEditingController emailResetController =
+                    TextEditingController();
                 return AlertDialog(
                   title: const Text('Recuperar Contraseña'),
-                  content: const Text(
-                      'Se envio un enlace para restaurar su contraseña a su correo escrito arriba'),
+                  content: TextField(
+                    controller: emailResetController,
+                    decoration: const InputDecoration(
+                      hintText: "Ingrese su correo electrónico",
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
                   actions: <Widget>[
+                    TextButton(
+                      onPressed: () async {
+                        String email = emailResetController.text;
+                        if (email.isNotEmpty) {
+                          await FirebaseAuth.instance
+                              .sendPasswordResetEmail(email: email);
+                          Navigator.of(context).pop();
+                          _showConfirmationDialog(context);
+                        } else {
+                          _showErrorDialog(context,
+                              "Por favor, ingrese un correo electrónico.");
+                        }
+                      },
+                      child: const Text('Enviar'),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: const Text('Cerrar'),
+                      child: const Text('Cancelar'),
                     ),
                   ],
                 );
