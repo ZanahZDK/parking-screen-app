@@ -1,4 +1,5 @@
 // ignore_for_file: override_on_non_overriding_member, library_private_types_in_public_api, prefer_final_fields, avoid_print, file_names
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -22,12 +23,28 @@ class _ParkingDetailScreenState extends State<ParkingDetailScreen> {
   String parkingLotName = "Cargando...";
   List<dynamic> parkingSpaces = [];
   String selectedFloor = 'Nivel 1';
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     loadParkingLotName(widget.parkingLotId);
     loadParkingSpaces('Nivel 1', widget.parkingLotId);
+    _startAutoRefresh();
+  }
+
+  void _startAutoRefresh() {
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      if (mounted) {
+        loadParkingSpaces(selectedFloor, widget.parkingLotId);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   loadParkingLotName(int parkingLotId) async {
