@@ -103,8 +103,6 @@ class _ParkingDetailScreenState extends State<ParkingDetailScreen> {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
-
-          // BOTONES QUE PERMITEN NAVEGAR ENTRE LOS PISOS DEL ESTACIONAMIENTO
           Padding(
             padding: const EdgeInsets.only(top: 1.0),
             child: Row(
@@ -117,12 +115,11 @@ class _ParkingDetailScreenState extends State<ParkingDetailScreen> {
                   .toList(),
             ),
           ),
-
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5, // Ajusta el número de elementos horizontales
-                childAspectRatio: 0.65, // Ajusta la proporción de los elementos
+                crossAxisCount: 5,
+                childAspectRatio: 0.65,
               ),
               itemCount: parkingSpaces.length,
               itemBuilder: (context, index) {

@@ -94,12 +94,11 @@ class _LoginPageState extends State<LoginPage> {
     mediaSize = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        //color: myColor,
         image: DecorationImage(
-          image: const AssetImage("assets/images/estacionamiento2.jpg"),
+          image: const AssetImage("assets/images/Background.jpg"),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            myColor.withOpacity(0.5),
+            myColor.withOpacity(1),
             BlendMode.dstATop,
           ),
         ),
@@ -109,40 +108,11 @@ class _LoginPageState extends State<LoginPage> {
         body: Stack(
           children: [
             Positioned(
-              top: 40,
-              child: _buildTop(),
-            ),
-            Positioned(
               bottom: 0,
               child: _buildBottom(),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildTop() {
-    return SizedBox(
-      width: mediaSize.width,
-      child: const Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.location_on_sharp,
-            size: 100,
-            color: Colors.white,
-          ),
-          Text(
-            "Parking Finder",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 40,
-              letterSpacing: 2,
-            ),
-          ),
-        ],
       ),
     );
   }

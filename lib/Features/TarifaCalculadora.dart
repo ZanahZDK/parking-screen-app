@@ -141,58 +141,94 @@ class TarifasPageState extends State<TarifasPage> {
               Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/estacionamiento2.jpg"),
+                    image: AssetImage("assets/images/pattern.jpg"),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               Center(
-                // Centrar la Card en la pantalla
                 child: Padding(
                   padding: const EdgeInsets.all(50.0),
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                     child: Padding(
-                      padding: const EdgeInsets.all(
-                          20.0), // Ajustar el padding según sea necesario
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min, // Ajustar al contenido
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          DropdownButton<String>(
-                            items: parkingLots.map((lot) {
-                              return DropdownMenuItem<String>(
-                                value: lot['id'].toString(),
-                                child: Text(lot['name']),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedParkingLot = newValue;
-                                if (newValue != null) {
-                                  loadHourlyRate(newValue);
-                                }
-                              });
-                            },
-                            hint: const Text('Selecciona un estacionamiento'),
-                            value: selectedParkingLot,
-                          ),
-                          TextField(
-                            controller: _horasController,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: 'Minutos',
-                              hintText: 'Ingrese la cantidad de minutos',
+                          Align(
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              width: 240,
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                items: parkingLots.map((lot) {
+                                  return DropdownMenuItem<String>(
+                                    value: lot['id'].toString(),
+                                    child: Text(lot['name']),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedParkingLot = newValue;
+                                    if (newValue != null) {
+                                      loadHourlyRate(newValue);
+                                    }
+                                  });
+                                },
+                                hint: const Center(
+                                  child: Text('Estacionamiento'),
+                                ),
+                                value: selectedParkingLot,
+                              ),
                             ),
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter
-                                  .digitsOnly // Aceptar solo dígitos
-                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          const Align(
+                            alignment: Alignment.center,
+                            child: Text('Minutos'),
+                          ),
+                          const SizedBox(height: 8),
+                          Center(
+                            child: SizedBox(
+                              width: 150,
+                              child: TextField(
+                                controller: _horasController,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: '0 minutos',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey[600]!.withOpacity(
+                                        0.5), // Ajusta la opacidad aquí
+                                  ),
+                                  border: const UnderlineInputBorder(
+                                    borderSide: BorderSide(width: 1),
+                                  ),
+                                  isDense: true,
+                                  contentPadding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                ),
+                                textAlign: TextAlign.center,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: calculateFee,
-                            child: const Text(
-                              'Calcular Tarifa',
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: calculateFee,
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 15),
+                              ),
+                              child: const Text('Calcular Tarifa'),
                             ),
                           ),
                         ],
