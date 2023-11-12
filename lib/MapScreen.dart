@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Data/VerPerfil.dart';
 import 'package:flutter_application_1/Features/firebase_options.dart';
 import 'package:flutter_application_1/Data/InicioSesion.dart';
 import 'package:flutter_application_1/Features/MallAsociados.dart';
@@ -192,10 +193,18 @@ class _MapScreenState extends State<MapScreen> {
                 backgroundImage: AssetImage('assets/images/id.png'),
               ),
             ),
-            ListTile(
-              title: const Text('Ver Perfil'),
-              onTap: () {},
-            ),
+            if (FirebaseAuth.instance.currentUser != null)
+              ListTile(
+                title: const Text('Ver Perfil'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PerfilPage1(),
+                    ),
+                  );
+                },
+              ),
             ListTile(
               title: const Text('Mall Asociados'),
               onTap: () {
@@ -233,13 +242,14 @@ class _MapScreenState extends State<MapScreen> {
                       thickness: 1,
                       color: Colors.grey,
                     ),
-                    ListTile(
-                      title: const Text('Cerrar Sesión'),
-                      onTap: () async {
-                        await FirebaseAuth.instance.signOut();
-                        setState(() {});
-                      },
-                    ),
+                    if (FirebaseAuth.instance.currentUser != null)
+                      ListTile(
+                        title: const Text('Cerrar Sesión'),
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          setState(() {});
+                        },
+                      ),
                   ],
                 ),
               ),

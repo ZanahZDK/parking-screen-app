@@ -1,8 +1,8 @@
 // ignore: file_names
 // ignore_for_file: unused_import, file_names, duplicate_ignore, use_build_context_synchronously, avoid_print, unused_local_variable
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 
@@ -38,8 +38,20 @@ class _LoginPageState extends State<RecuperarPassword> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController patenteController = TextEditingController();
   TextEditingController rutController = TextEditingController();
+  late DatabaseReference ref;
+  late FirebaseDatabase rtdb;
 
   bool rememberUser = false;
+
+  @override
+  void initState() {
+    final firebaseApp = Firebase.app();
+    rtdb = FirebaseDatabase.instanceFor(
+        app: firebaseApp,
+        databaseURL: 'https://sparking-399700-default-rtdb.firebaseio.com');
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +59,6 @@ class _LoginPageState extends State<RecuperarPassword> {
     mediaSize = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        //color: myColor,
         image: DecorationImage(
           image: const AssetImage("assets/images/estacionamiento3.jpeg"),
           fit: BoxFit.cover,
@@ -81,11 +92,6 @@ class _LoginPageState extends State<RecuperarPassword> {
       child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Icon(
-          //   Icons.location_on_sharp,
-          //   size: 100,
-          //   color: Colors.white,
-          // ),
           Text(
             "Parking Finder",
             style: TextStyle(
@@ -204,6 +210,18 @@ class _LoginPageState extends State<RecuperarPassword> {
           await usuario.updateDisplayName(nameController.text);
 
           await usuario.reload();
+
+          final user = {
+            'name': nameController.text,
+            'email': emailController.text,
+            'patente': patenteController.text,
+            'rut': rutController.text,
+            'phone': phoneController.text,
+          };
+
+          ref = rtdb.ref('user/${usuario.uid}');
+
+          await ref.set(user);
 
           Navigator.push(
             context,
